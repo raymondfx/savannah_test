@@ -1,6 +1,6 @@
 # **Performance Test Report**  
 **Date**: March 9, 2025  
-**Test Tool**: K6 Load Testing  
+**Test Tool**: K6 Performance Testing  
 
 ---
 
@@ -97,17 +97,13 @@ Photos API Error Sources:
 - **Users/Albums**: Production-ready with monitoring for latency spikes  
 - **Photos**: Critical failure - requires architectural changes  
 
-**Approvals**:  
-[QA Lead] ___________________  
-[CTO] _______________________  
-
 ---
 
 **Appendices**:  
 A. Test Command Samples  
 ```
 # Photos API test
-k6 run --vus 50 --duration 15m photos-test.js
+k6 run --vus 50 --duration 15m photos.js
 ```
 
 B. Environment Details  
