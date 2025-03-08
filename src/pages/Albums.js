@@ -69,6 +69,9 @@ const AlbumTitle = styled.h3`
 `;
 
 export default function Albums() {
+  // Add new loading state for search
+  const [isSearching, setIsSearching] = useState(false);
+  
   const [albums, setAlbums] = useState([]);
   const [allAlbums, setAllAlbums] = useState([]); // Store all albums
   const [albumPreviews, setAlbumPreviews] = useState({});
@@ -106,48 +109,56 @@ export default function Albums() {
   }, []); // Only run once on component mount
 
   // Separate effect for filtering based on search term
+  // Modify the search effect
   useEffect(() => {
     if (!initialLoading) {
-      // Only filter if we have albums loaded
-      const filteredAlbums = searchTerm.trim() === '' 
-        ? allAlbums 
-        : allAlbums.filter(album => 
-            album.title.toLowerCase().includes(searchTerm.toLowerCase())
-          );
-      
-      setAlbums(filteredAlbums);
+      setIsSearching(true);
+      const timeoutId = setTimeout(() => {
+        const filteredAlbums = searchTerm.trim() === '' 
+          ? allAlbums 
+          : allAlbums.filter(album => 
+              album.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        
+        setAlbums(filteredAlbums);
+        setIsSearching(false);
+      }, 300); // Add 300ms debounce delay
+        
+      return () => clearTimeout(timeoutId);
     }
   }, [searchTerm, allAlbums, initialLoading]);
 
-  // Debounced search handler
+  // Add missing search handler
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  if (initialLoading) {
-    return <Container>Loading albums...</Container>;
-  }
-
+  // Add data-testid attributes to key elements
   return (
     <Container>
-      <Title>Albums</Title>
+      <Title>Albums</Title> {/* Add back the heading */}
+      <SearchInput 
+        type="text" 
+        placeholder="Search albums by title..." 
+        value={searchTerm}
+        onChange={handleSearch}
+        data-testid="search-input"
+      />
       
-      {/* Add search input */}
-      <SearchContainer>
-        <SearchInput 
-          type="text" 
-          placeholder="Search albums by title..." 
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </SearchContainer>
-      
-      {albums.length === 0 ? (
-        <p>No albums found matching your search.</p>
+      {/* Update loading and empty states */}
+      {isSearching ? (
+        <p data-testid="search-loading">Searching albums...</p>
+      ) : albums.length === 0 ? (
+        <p data-testid="no-results-message">No albums found matching your search.</p>
       ) : (
         <AlbumGrid>
           {albums.map(album => (
-            <AlbumCard key={album.id} to={`/albums/${album.id}`}>
+            // Add data-testid to album cards
+            <AlbumCard 
+              key={album.id} 
+              to={`/albums/${album.id}`}
+              data-testid="album-card"
+            >
               <AlbumThumbnails>
                 {albumPreviews[album.id] ? (
                   albumPreviews[album.id].map((photo, index) => (

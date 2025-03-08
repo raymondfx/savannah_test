@@ -159,18 +159,23 @@ export default function Photos() {
           placeholder="Search photos by title..." 
           value={searchTerm}
           onChange={handleSearch}
+          data-testid="search-input"
         />
       </SearchContainer>
       
       {photos.length === 0 && !loading ? (
-        <p>No photos found matching your search.</p>
+        <p data-testid="no-results-message">No photos found matching your search.</p>
       ) : (
         <PhotoGrid>
           {photos.map(photo => (
-            <PhotoCard key={photo.id} to={`/photos/${photo.id}`}>
+            <PhotoCard 
+              key={photo.id} 
+              to={`/photos/${photo.id}`}
+              data-testid="photo-card"
+            >
               <PhotoImage src={photo.thumbnailUrl} alt={photo.title} />
               <PhotoContent>
-                <PhotoTitle>{photo.title}</PhotoTitle>
+                <PhotoTitle className="PhotoTitle">{photo.title}</PhotoTitle>
               </PhotoContent>
             </PhotoCard>
           ))}
