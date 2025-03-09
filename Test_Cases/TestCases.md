@@ -4,7 +4,7 @@
 This document covers test scenarios for the following modules:
 - **Landing Page**
 - **Login Page**
-- **Authenticated Pages (Home, User, Album, Photo)**
+- **Authenticated Pages (Home, Users, Albums, Photos)**
 - **Security & Edge Cases**
 - **Compatibility & Responsiveness**
 
@@ -29,8 +29,6 @@ This document covers test scenarios for the following modules:
 | TC-02.1      | Valid Login                       | 1. Enter valid credentials.<br>2. Click "Submit."                    | Redirected to Home Page; session cookie set.                                    | Positive   |
 | TC-02.2      | Invalid Login                     | 1. Enter invalid credentials.<br>2. Click "Submit."                  | Error: "Invalid credentials."                                                   | Negative   |
 | TC-02.3      | Empty Form Submission             | 1. Leave fields blank.<br>2. Click "Submit."                         | Error: "Username and password are required."                                    | Negative   |
-| TC-02.4      | Forgot Password                   | 1. Click "Forgot Password."<br>2. Enter valid email.<br>3. Submit.    | Confirmation email sent (mocked).                                               | Positive   |
-
 ---
 
 ### **3. Home Page (Authenticated)**
